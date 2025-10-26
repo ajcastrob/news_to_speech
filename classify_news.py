@@ -59,7 +59,7 @@ Clasifica esta noticia según su URL
     return results
 
 
-portal = "https://cnnespanol.cnn.com"
+portal = "https://www.elnacional.com"
 news = get_news_url(portal)
 classified_news = clarify_news(news)
 
