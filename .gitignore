@@ -1,0 +1,17 @@
+# Archivos de sistema
+.DS_Store
+
+# Archivos de entorno
+.env
+
+# Archivos compilados de Python
+__pycache__/
+*.pyc
+
+# Archivos de audio
+*.mp3
+
+# Archivos de datos
+noticias.json
+articulos/
+plan_proyecto_noticias.txt
