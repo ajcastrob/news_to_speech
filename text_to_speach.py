@@ -29,7 +29,10 @@ def convert_text_to_speach(json_path, name: str):
 
     audios = []
     for i, fragments in enumerate(fragments, start=1):
-        filename = f"{name}_{i}.mp3"
+        # Crear la carpeta audios y guardar ahí las salidas de audio.
+        output_folder = "audio"
+        os.makedirs(output_folder, exist_ok=True)
+        filename = os.path.join(output_folder, f"{name}_{i}.mp3")
 
         with client.audio.speech.with_streaming_response.create(
             model="gpt-4o-mini-tts",
