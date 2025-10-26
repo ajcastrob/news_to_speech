@@ -10,10 +10,11 @@ This README is available in English and Spanish.
 A Python project that fetches news articles from a given source, classifies them using the Gemini API, extracts their content, and converts them to audio files using OpenAI's Text-to-Speech API.
 
 ### Project Structure
+- `main.py`: The main entry point to run the entire news processing pipeline.
 - `import_news.py`: Fetches article URLs from a news website.
-- `classify_news.py`: Classifies the news articles using Gemini and saves them to `noticias.json`.
-- `news.py`: Downloads the full content of classified articles and saves them as individual JSON files in the `articulos/` directory.
-- `text_to_speach.py`: Converts the text from a JSON article file into an MP3 audio file.
+- `classify_news.py`: A module to classify news articles using the Gemini API.
+- `news.py`: A module to download and parse the full content of articles.
+- `text_to_speach.py`: A module to convert article text into MP3 audio files.
 - `articulos/`: Directory where the extracted articles are stored.
 - `requirements.txt`: Contains the project dependencies.
 
@@ -31,25 +32,21 @@ A Python project that fetches news articles from a given source, classifies them
     ```
 
 ### Usage
-The scripts are currently designed to be run sequentially.
+The project is now orchestrated by `main.py`, which automates the entire pipeline.
 
-1.  **Fetch and Classify News**:
-    Run the `classify_news.py` script to fetch news from the default portal (`elnacional.com`) and classify them. This will create a `noticias.json` file.
+1.  **Run the main script**:
     ```bash
-    python classify_news.py
+    python main.py
     ```
-2.  **Extract Article Content**:
-    Run the `news.py` script. This will take the first URL from `noticias.json`, download the article, and save it in the `articulos/` directory.
-    ```bash
-    python news.py
-    ```
-    *(Note: This script currently only processes the first article)*
-3.  **Convert to Speech**:
-    Run the `text_to_speach.py` script. You need to manually edit the `path` variable in this script to point to the desired article JSON file.
-    ```bash
-    python text_to_speach.py
-    ```
-    *(Note: The file to be converted is hardcoded in the script)*
+2.  **Enter the news portal URL**:
+    The script will prompt you to enter the URL of the news portal you want to process (e.g., `https://www.example-news.com`).
+3.  **Processing**:
+    The script will then automatically:
+    *   Fetch and classify the articles.
+    *   Extract the content of each article and save it in the `articulos/` directory.
+    *   Convert the text of each article into an MP3 audio file.
+
+*(Note: By default, the script is configured to process 2 articles. This can be changed in the `main.py` file.)*
 
 ---
 
@@ -59,10 +56,11 @@ The scripts are currently designed to be run sequentially.
 Un proyecto en Python que obtiene artículos de noticias desde una fuente, los clasifica usando la API de Gemini, extrae su contenido y los convierte a archivos de audio usando la API de Text-to-Speech de OpenAI.
 
 ### Estructura del Proyecto
+- `main.py`: El punto de entrada principal para ejecutar todo el proceso de noticias.
 - `import_news.py`: Obtiene las URLs de los artículos de un sitio web de noticias.
-- `classify_news.py`: Clasifica los artículos de noticias usando Gemini y los guarda en `noticias.json`.
-- `news.py`: Descarga el contenido completo de los artículos clasificados y los guarda como archivos JSON individuales en el directorio `articulos/`.
-- `text_to_speach.py`: Convierte el texto de un archivo JSON de un artículo a un archivo de audio MP3.
+- `classify_news.py`: Un módulo para clasificar artículos de noticias usando la API de Gemini.
+- `news.py`: Un módulo para descargar y analizar el contenido completo de los artículos.
+- `text_to_speach.py`: Un módulo para convertir el texto de los artículos a archivos de audio MP3.
 - `articulos/`: Directorio donde se guardan los artículos extraídos.
 - `requirements.txt`: Contiene las dependencias del proyecto.
 
@@ -80,22 +78,18 @@ Un proyecto en Python que obtiene artículos de noticias desde una fuente, los c
     ```
 
 ### Uso
-Actualmente, los scripts están diseñados para ejecutarse en secuencia.
+El proyecto ahora está orquestado por `main.py`, que automatiza todo el proceso.
 
-1.  **Obtener y Clasificar Noticias**:
-    Ejecuta el script `classify_news.py` para obtener noticias del portal por defecto (`elnacional.com`) y clasificarlas. Esto creará un archivo `noticias.json`.
+1.  **Ejecuta el script principal**:
     ```bash
-    python classify_news.py
+    python main.py
     ```
-2.  **Extraer Contenido del Artículo**:
-    Ejecuta el script `news.py`. Este tomará la primera URL de `noticias.json`, descargará el artículo y lo guardará en el directorio `articulos/`.
-    ```bash
-    python news.py
-    ```
-    *(Nota: Actualmente, este script solo procesa el primer artículo)*
-3.  **Convertir a Audio**:
-    Ejecuta el script `text_to_speach.py`. Necesitas editar manualmente la variable `path` en este script para que apunte al archivo JSON del artículo deseado.
-    ```bash
-    python text_to_speach.py
-    ```
-    *(Nota: El archivo a convertir está hardcodeado en el script)*
+2.  **Ingresa la URL del portal de noticias**:
+    El script te pedirá que ingreses la URL del portal de noticias que quieres procesar (por ejemplo, `https://www.ejemplo-noticias.com`).
+3.  **Procesamiento**:
+    El script se encargará automáticamente de:
+    *   Obtener y clasificar los artículos.
+    *   Extraer el contenido de cada artículo y guardarlo en el directorio `articulos/`.
+    *   Convertir el texto de cada artículo a un archivo de audio MP3.
+
+*(Nota: Por defecto, el script está configurado para procesar 2 artículos. Esto se puede cambiar en el archivo `main.py`.)*

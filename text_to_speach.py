@@ -44,10 +44,26 @@ def convert_text_to_speach(json_path, name: str):
     return audios
 
 
-path = "./articulos/Lula_se_ofrece_como_mediador_para_aliviar_tensione_b88f5084.json"
+def run_tts_on_articles(article_path: list):
+    """Recorre una lista de artículos y los convierte de texto a audio"""
 
-try:
-    archivo_audio = convert_text_to_speach(path, "el_nacional")
-    print(f"Audios generados")
-except Exception as e:
-    print(f"Error: {e}")
+    print(f"Iniciando la conversión de {len(article_path)} artículos a audio.")
+
+    for path in article_path:
+        if not path:
+            print("Se encontró una ruta vacía. Saltando")
+            continue
+
+        try:
+            # Extraer un nombre base del archivo JSON para nombrar el audio.
+            base_name = os.path.splitext(os.path.basename(path))[0]
+
+            print(f"Convirtiendo audio de {path}")
+
+            generate_audio = convert_text_to_speach(path, name=base_name)
+            print(f"Audios generados para {base_name}: {generate_audio}")
+
+        except Exception as e:
+            print(f"Errro al convertir audio {e}")
+
+    print("Conversión completada.")

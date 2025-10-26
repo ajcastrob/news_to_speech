@@ -23,13 +23,13 @@ def extract_json(text):
         return None
 
 
-def clarify_news(data_news):
+def clarify_news(data_news, limit=20):
     # Definir el modelo
     model = genai.GenerativeModel("gemini-2.5-flash")
 
     results = []
 
-    for item in data_news[:20]:
+    for item in data_news[:limit]:
         url = item
 
         prompt = f"""
@@ -59,9 +59,15 @@ Clasifica esta noticia según su URL
     return results
 
 
-portal = "https://www.elnacional.com"
-news = get_news_url(portal)
-classified_news = clarify_news(news)
+def run_classification(portal_url, classification_limit=20):
+    """Ejecuta el proceso de clasificación de noticias
+    output: una lista de diccionarios con las noticias clasificadas.
+    """
+    print(f"Iniciando la obtención de noticias desde {portal_url}")
+    news_url = get_news_url(portal_url)
 
-with open("noticias.json", "w", encoding="utf-8") as file:
-    json.dump(classified_news, file, ensure_ascii=False, indent=2)
+    print(f"Clasificando {min(len(news_url), classification_limit)} noticias")
+    classified_news = clarify_news(news_url, limit=classification_limit)
+
+    print("Clasificación completada")
+    return classified_news

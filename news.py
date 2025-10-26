@@ -75,11 +75,35 @@ def save_article(article, filename, folder="articulos"):
     print("Artículo guardado con éxito")
 
 
-with open("noticias.json", "r") as file:
-    data = json.load(file)
-    data[0]["Categoría"]
-    url = data[0]["URL"]
+def process_article(clasified_news: list):
+    """Procesa las noticias clasificadas, extrañendo y guardando cada una
+    output: una lista de strings con la ruta de los archivos guardados.
+    """
+    # Crear la lista vacía.
+    save_path_article = []
+    # Crear una muetra de la totalidad de los artículos.
+    total_article = len(clasified_news)
 
-print(url)
-data_noticia, filename = extract_article(url)
-save_article(data_noticia, filename)
+    # Hacer el bucle.
+    for i, news_item in enumerate(clasified_news, 1):
+        # Buscar en el diccionario el url
+        url = news_item.get("URL")
+        if not url:
+            print(f"El item {i} no tiene URL válido. Se salta.")
+            continue
+
+        print(f"Procesando artículo {i}/{total_article} : {url}")
+        # LLamar a la función que extrae el artículo
+        article_data, filename = extract_article(url)
+
+        # Guardar el artículo.
+        if article_data and filename:
+            save_article(article_data, filename)
+            filepath = os.path.join("articulos", filename)
+            # Guardo los path en la lista.
+            save_path_article.append(filepath)
+        else:
+            print(f"No se pudo guardar el artículo {i} dese {url}")
+
+    print("Procesado de artículos completo")
+    return save_path_article
