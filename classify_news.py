@@ -29,7 +29,7 @@ def clarify_news(data_news):
 
     results = []
 
-    for item in data_news[:10]:
+    for item in data_news[:20]:
         url = item
 
         prompt = f"""
