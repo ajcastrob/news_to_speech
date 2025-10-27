@@ -19,7 +19,7 @@ def convert_text_to_speach(json_path, name: str):
 
     with open(json_path, "r", encoding="utf-8") as file:
         data = json.load(file)
-        articulo = data.get("texto", "")
+        articulo = data.get("resumen", "")
 
     if not articulo:
         raise ValueError("El archivo Json no contiene texto")

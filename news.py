@@ -1,4 +1,5 @@
 import hashlib
+import google.generativeai as genai
 from newspaper import Article
 import json
 import re
@@ -28,6 +29,31 @@ def clean_name(filename: str):
     return filename[:50]  # Para evitar que título sea muy largo
 
 
+def sumarize_test(text, model_name="gemini-2.5-flash"):
+    """
+    Genera un resumer de la noticia con Gemini.
+    """
+    # Se inicializa el modelo.
+    model = genai.GenerativeModel(model_name)
+
+    # Se crea el prompt
+    prompt = f""" 
+    Resume el siguiente artículo de noticias en 2 párrafos concisos:
+    {text}
+     """
+
+    # Se intentan generar el contenio de la noticia.
+    try:
+        response = model.generate_content(prompt)
+        summary = response.text.strip()
+
+        # Se devuelve el resument.
+        return summary
+    except Exception as e:
+        print(f"Error al recibir el resumen {e}")
+        return "No se pudo generar resumen"
+
+
 def extract_article(url):
     """Descargar y parsear un artículo dado su URL
     y devuelve un diccionario.
@@ -39,7 +65,6 @@ def extract_article(url):
         # Descargar.
         article.download()
         article.parse()
-        article.nlp()
 
         # Generar un hash para guardar en json
         url_hash = hashlib.md5(url.encode()).hexdigest()[:8]
@@ -57,6 +82,12 @@ def extract_article(url):
             "fecha de publicación": str(article.publish_date),
             "texto": article.text,
         }
+
+        # Llamar a la función que resume el texto.
+        text_summary = sumarize_test(noticia["texto"])
+
+        # Añadir al diccionario
+        noticia["resumen"] = text_summary
 
         return noticia, filename
     except (TypeError, AttributeError) as e:
