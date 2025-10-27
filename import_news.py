@@ -16,5 +16,3 @@ def get_news_url(source_url):
 
     print(f"Se encontraron {len(urls)} artículos en {source_url}")
     return urls
-
-
